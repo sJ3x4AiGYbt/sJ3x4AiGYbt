@@ -17,12 +17,12 @@ I love learning
 
 1. Hope soon, about ctrl + shift + A ~ ~ ~ ;)
 
+  </tr>
+</table>
+
 **읽을거리**
 
 [*******](https://github.com/sJ3x4AiGYbt/sJ3x4AiGYbt/reading)
-
-  </tr>
-</table>
 
 sj3x4aigybt.deuce273@passinbox.com
 
