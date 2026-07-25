@@ -14,7 +14,7 @@ Hope soon, about ctrl + shift + A ~ ~ ~ ;)
 
 **읽을거리**
 
-[*******](https://github.com/sJ3x4AiGYbt/sJ3x4AiGYbt/reading)
+[*******](https://github.com/sJ3x4AiGYbt/sJ3x4AiGYbt/tree/main/reading)
 
 <br clear="all" />
 <br clear="all" />
