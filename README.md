@@ -1,25 +1,25 @@
 <img src="media/fb_fb_fb.webp" width="30%" align="left" style="margin-right: 15px;">
 
-- **소개**
+**소개**
 
 I love learning
 
-- **프로젝트**
+**프로젝트**
 
 [Leitsys](https://github.com/sJ3x4AiGYbt/leitsys_api), A learning app based on the Leitner system, started ~03/26. 
 
-- **논문**
+**논문**
 
 Hope soon, about ctrl + shift + A ~ ~ ~ ;)
 
-- **읽을거리**
+**읽을거리**
 
 [*******](https://github.com/sJ3x4AiGYbt/sJ3x4AiGYbt/reading)
 
 <br clear="all" />
 <br clear="all" />
 
-sj3x4aigybt.deuce273@passinbox.com
+**연락처** : sj3x4aigybt.deuce273@passinbox.com
 
 -----BEGIN PGP PUBLIC KEY BLOCK-----
 
