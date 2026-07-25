@@ -1,28 +1,23 @@
-<table width="100%" border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse; border: none;">
-  <tr>
-    <td width="30%" valign="top" style="border: none;">
-      <img src="media/fb_fb_fb.webp" width="100%">
-    </td>
-    <td width="70%" valign="top" style="border: none;">
+<img src="media/fb_fb_fb.webp" width="30%" align="left" style="margin-right: 15px;">
 
-**소개**
+- **소개**
 
 I love learning
 
-**프로젝트**
+- **프로젝트**
 
-1. [Leitsys](https://github.com/sJ3x4AiGYbt/leitsys_api), A learning app based on the Leitner system, started ~03/26. 
+[Leitsys](https://github.com/sJ3x4AiGYbt/leitsys_api), A learning app based on the Leitner system, started ~03/26. 
 
-**논문**
+- **논문**
 
-1. Hope soon, about ctrl + shift + A ~ ~ ~ ;)
+Hope soon, about ctrl + shift + A ~ ~ ~ ;)
 
-  </tr>
-</table>
-
-**읽을거리**
+- **읽을거리**
 
 [*******](https://github.com/sJ3x4AiGYbt/sJ3x4AiGYbt/reading)
+
+<br clear="all" />
+<br clear="all" />
 
 sj3x4aigybt.deuce273@passinbox.com
 
