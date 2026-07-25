@@ -1,9 +1,9 @@
-<table width="100%">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" style="border-collapse: collapse; border: none;">
   <tr>
-    <td width="25%" valign="top">
+    <td width="30%" valign="top" style="border: none;">
       <img src="media/fb_fb_fb.webp" width="100%">
     </td>
-    <td width="75%" valign="top">
+    <td width="70%" valign="top" style="border: none;">
 
 **소개**
 
