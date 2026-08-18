@@ -12,6 +12,7 @@ brew "unzip"
 brew "unrar"
 brew "7z"
 brew "cabextract"
+brew "cherrytree"
 # gui
 cask "remmina"
 cask "nordvpn"
