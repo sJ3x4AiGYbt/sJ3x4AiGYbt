@@ -5,8 +5,7 @@ vim
 tree
 zip
 unzip
-unrar
-7z
+p7zip-full
 cabextract
 
 curl
@@ -27,5 +26,3 @@ build-essential
 
 docker.io
 docker-compose
-
-virtualbox
