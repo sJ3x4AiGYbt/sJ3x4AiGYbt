@@ -24,5 +24,4 @@ python3-venv
 
 build-essential
 
-docker.io
-docker-compose
+ca-certificates

@@ -33,10 +33,20 @@ elif [[ "$OS" == "Linux" ]]; then
     sudo apt update
     xargs -a "$DOTFILES_DIR/packages-linux-apt.txt" sudo apt install -y
 
-    if command -v docker &>/dev/null; then
-        sudo usermod -aG docker "$USER"
-        echo "==> add to the 'docker' group (log back in or run 'newgrp docker')"
+    if ! command -v docker &>/dev/null; then
+        echo "==> installing Docker Engine (official repo)..."
+        sudo install -m 0755 -d /etc/apt/keyrings
+        . /etc/os-release
+        curl -fsSL "https://download.docker.com/linux/${ID}/gpg" | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+        echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/${ID} ${VERSION_CODENAME} stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+        sudo apt update
+        sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
+    else
+        echo "==> docker already installed ($(docker --version))"
     fi
+
+    sudo usermod -aG docker "$USER"
+    echo "==> add to the 'docker' group (log back in or run 'newgrp docker')"
 fi
 
 # --- rust ---
