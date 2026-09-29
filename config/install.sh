@@ -5,6 +5,8 @@ DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 OS="$(uname -s)"
 echo "==> OS find : $OS"
 
+# first: check sudo (sudo -v or su - && usermod -aG sudo $USER && exit) and check git (git --version or sudo apt update && sudo apt install -y git)
+
 # --- git ---
 if [[ -f "$HOME/.gitconfig" ]]; then
     echo "==> ~/.gitconfig already exist, backing it up to .gitconfig.bak"
