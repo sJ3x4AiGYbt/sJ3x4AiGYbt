@@ -3,32 +3,53 @@ set -euo pipefail
 
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 OS="$(uname -s)"
-echo "==> OS find : $OS"
+echo "==> OS found : $OS"
 
 # first: check sudo (sudo -v or su - && usermod -aG sudo $USER && exit) and check git (git --version or sudo apt update && sudo apt install -y git)
 
 # --- git ---
-if [[ -f "$HOME/.gitconfig" ]]; then
-    echo "==> ~/.gitconfig already exist, backing it up to .gitconfig.bak"
-    cp "$HOME/.gitconfig" "$HOME/.gitconfig.bak"
+if [[ -f "$HOME/.gitconfig" ]] && ! cmp -s "$DOTFILES_DIR/git/.gitconfig" "$HOME/.gitconfig"; then
+    backup="$HOME/.gitconfig.bak.$(date +%Y%m%d-%H%M%S)"
+    echo "==> ~/.gitconfig differs from the dotfiles one, backing it up to $backup"
+    cp "$HOME/.gitconfig" "$backup"
 fi
 cp "$DOTFILES_DIR/git/.gitconfig" "$HOME/.gitconfig"
-echo "==> ~/.gitconfig installed (remember to ckeck the email address inside)"
+echo "==> ~/.gitconfig installed (remember to check the email address inside)"
 
 # --- soft ---
 if [[ "$OS" == "Darwin" ]]; then
-    if ! command -v brew &>/dev/null; then
+    load_brew() {
+        local b
+        for b in /opt/homebrew/bin/brew /usr/local/bin/brew; do
+            if [[ -x "$b" ]]; then
+                eval "$("$b" shellenv)"
+                return 0
+            fi
+        done
+        return 1
+    }
+
+    if ! command -v brew &>/dev/null && ! load_brew; then
         echo "==> homebrew isn't installed"
         read -r -p "install it now ? [y/N] " reply
         if [[ "$reply" =~ ^[Yy]$ ]]; then
             /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+            load_brew || { echo "==> brew installed but not found, open a new terminal and run the script again"; exit 1; }
         else
             echo "==> install Homebrew manually then run the script again : https://brew.sh"
             exit 1
         fi
     fi
+
+    if ! grep -qF "brew shellenv" "$HOME/.zprofile" 2>/dev/null; then
+        echo "eval \"\$($(command -v brew) shellenv)\"" >> "$HOME/.zprofile"
+        echo "==> brew shellenv added to ~/.zprofile"
+    fi
+
     echo "==> installing tools + apps with Brewfile..."
-    brew bundle --file="$DOTFILES_DIR/Brewfile"
+    if ! brew bundle --verbose --file="$DOTFILES_DIR/Brewfile"; then
+        echo "==> WARNING: some Brewfile entries failed (see above), continuing"
+    fi
 
 elif [[ "$OS" == "Linux" ]]; then
     echo "==> installing tools with apt..."
@@ -48,7 +69,7 @@ elif [[ "$OS" == "Linux" ]]; then
     fi
 
     sudo usermod -aG docker "$USER"
-    echo "==> add to the 'docker' group (log back in or run 'newgrp docker')"
+    echo "==> added to the 'docker' group (log back in or run 'newgrp docker')"
 fi
 
 # --- rust ---
@@ -61,25 +82,44 @@ else
 fi
 
 # --- alias ---
+ALIAS_DIR="$HOME/.config/dotfiles/aliases"
+mkdir -p "$ALIAS_DIR"
+cp "$DOTFILES_DIR"/aliases/*.sh "$ALIAS_DIR"/
+echo "==> alias files copied to $ALIAS_DIR"
+
 read -r -d '' ALIAS_BLOCK << EOF || true
- 
 # --- Alias dotfiles (add by install.sh) ---
-[ -f "$DOTFILES_DIR/aliases/common.sh" ] && source "$DOTFILES_DIR/aliases/common.sh"
+if [ -n "\$ZSH_VERSION" ]; then
+    PROMPT=\$'\n╭─ %D{%d/%m %H:%M} · %n'"\${SSH_CONNECTION:+@%m}"\$' · %~\n╰─> '
+elif [ -n "\$BASH_VERSION" ]; then
+    PS1='\n╭─ \D{%d/%m %H:%M} · \u'"\${SSH_CONNECTION:+@\h}"' · \w\n╰─> '
+fi
+[ -f "$ALIAS_DIR/common.sh" ] && source "$ALIAS_DIR/common.sh"
 case "\$(uname -s)" in
-    Darwin) [ -f "$DOTFILES_DIR/aliases/mac.sh" ]   && source "$DOTFILES_DIR/aliases/mac.sh" ;;
-    Linux)  [ -f "$DOTFILES_DIR/aliases/linux.sh" ] && source "$DOTFILES_DIR/aliases/linux.sh" ;;
+    Darwin) [ -f "$ALIAS_DIR/mac.sh" ]   && source "$ALIAS_DIR/mac.sh" ;;
+    Linux)  [ -f "$ALIAS_DIR/linux.sh" ] && source "$ALIAS_DIR/linux.sh" ;;
 esac
+# --- end Alias dotfiles ---
 EOF
- 
+
 for rc in "$HOME/.zshrc" "$HOME/.bashrc"; do
-    touch "$rc"
-    if grep -qF "alias dotfiles (add by install.sh)" "$rc" 2>/dev/null; then
-        echo "==> alias already listed in $rc"
-    else
-        printf '%s\n' "$ALIAS_BLOCK" >> "$rc"
-        echo "==> alias add in $rc"
+    if [[ "$OS" == "Darwin" && "$rc" == *bashrc && ! -f "$rc" ]]; then
+        continue
     fi
+    touch "$rc"
+    tmp="$(mktemp)"
+    awk '
+        /# --- Alias dotfiles \(add by install.sh\) ---/ { skip = 1; next }
+        skip == 1 { if ($0 == "esac") skip = 2; next }
+        skip == 2 { skip = 0; if ($0 ~ /# --- end Alias dotfiles ---/) next }
+        { print }
+    ' "$rc" > "$tmp"
+    cat "$tmp" > "$rc"
+    rm -f "$tmp"
+
+    printf '%s\n' "$ALIAS_BLOCK" >> "$rc"
+    echo "==> alias block (re)written in $rc"
 done
 
 echo
-echo "==> finished. restart shell or run `source ~/.zshrc`."
+echo '==> finished. restart shell or run `source ~/.zshrc`.'

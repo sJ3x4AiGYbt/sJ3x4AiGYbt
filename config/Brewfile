@@ -5,22 +5,23 @@ brew "tree"
 brew "nmap"
 brew "wget"
 brew "gnupg"
-brew "pass"
-brew "pass-otp"
 brew "openvpn"
 brew "sevenzip"
 brew "cherrytree"
 brew "uv"
-# brew "vim" brew "openssh" brew "curl"
+brew "claude-code"
+# already here brew "vim" brew "openssh" brew "curl"
+# don't need finally -> brew "pass" brew "pass-otp" (passwords)
 # gui
 cask "nordvpn"
-cask "google-chrome"
 cask "microsoft-teams"
 cask "microsoft-word"
 cask "microsoft-excel"
+cask "microsoft-outlook" #? 
 cask "microsoft-powerpoint"
 cask "visual-studio-code"
 cask "docker-desktop"
-cask "tailscale-app"
 cask "claude"
 cask "stats"
+# don't need finally -> cask "google-chrome" (safari)
+# don't need finally -> cask "tailscale-app" (wireguard)
