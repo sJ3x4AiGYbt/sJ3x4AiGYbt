@@ -10,6 +10,7 @@ brew "sevenzip"
 brew "cherrytree"
 brew "uv"
 brew "claude-code"
+brew "docker-compose"
 # already here brew "vim" brew "openssh" brew "curl"
 # don't need finally -> brew "pass" brew "pass-otp" (passwords)
 # gui
