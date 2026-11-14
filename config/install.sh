@@ -81,6 +81,22 @@ else
     source "$HOME/.cargo/env"
 fi
 
+# --- vscode extensions ---
+if command -v code &>/dev/null; then
+    echo "==> installing VS Code extensions..."
+    installed="$(code --list-extensions | tr '[:upper:]' '[:lower:]')"
+    while IFS= read -r ext; do
+        [[ -z "$ext" || "$ext" == \#* ]] && continue
+        if grep -qxF "$(tr '[:upper:]' '[:lower:]' <<< "$ext")" <<< "$installed"; then
+            echo "    $ext already installed"
+        else
+            code --install-extension "$ext" --force || echo "==> WARNING: $ext failed"
+        fi
+    done < "$DOTFILES_DIR/vscode_ext.txt"
+else
+    echo "==> 'code' not found in PATH, skipping VS Code extensions"
+fi
+
 # --- alias ---
 ALIAS_DIR="$HOME/.config/dotfiles/aliases"
 mkdir -p "$ALIAS_DIR"
