@@ -24,5 +24,6 @@ cask "visual-studio-code"
 cask "docker-desktop"
 cask "claude"
 cask "stats"
+cask "wireshark-app"
 # don't need finally -> cask "google-chrome" (safari)
 # don't need finally -> cask "tailscale-app" (wireguard)
