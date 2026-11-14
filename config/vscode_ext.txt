@@ -1,0 +1,4 @@
+PKief.material-icon-theme
+aaron-bond.better-comments
+Postman.postman-for-vscode
+esbenp.prettier-vscode
